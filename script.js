@@ -14,7 +14,6 @@
 
 const games = [];
 
-let guessCount = 0;
 
 /**
  * Byrjar leikinn okkar með því að kalla í play().
@@ -25,7 +24,7 @@ let guessCount = 0;
 function start() {
 	do {
 		play();
-	} while (confirm("Viltu spila annan leik?"));
+  } while (confirm("Viltu spila annan leik?"));
 	getResults(games);
 }
 
@@ -44,27 +43,27 @@ function start() {
  * Þarf aðútfæra með lykkju og flæðisstýringum
  */
 function play() {
-  const correct = randomNumber(0, 100);
-  let guess = 101;
-  guessCount = 0;
-
-	do {
+	const correct = randomNumber(0, 100);
+	let guess = NaN;
+  let guessCount = 0;
+  
+  do {
 		let input = prompt(`Giskaðu á tölu milli 0 og 100.`);
-    
-    if (input == null) {
-      guessCount = 0;
-      alert(`Hætt í leik`);
-      break;
-    }
 
-    guess = parseGuess(input);
+		if (input == null) {
+			guessCount = NaN;
+			alert(`Hætt í leik`);
+			break;
+		}
+
+		guess = parseGuess(input);
     getResponse(guess, correct);
+	  guessCount++;
   } while (guess != correct);
   
-
-	
-
-	games.push(guessCount);
+  if(guess == correct) {
+    games.push(guessCount);
+  }
 }
 
 /**
@@ -129,11 +128,10 @@ function parseGuess(input) {
  * Math.abs skilar algildi tölu: |a| = Math.abs(a)
  */
 function getResponse(guess, correct) {
-	guessCount++;
 	if (guess < 0 || isNaN(guess)) {
 		return alert("Ekki rétt");
 	} else if (guess == correct) {
-    return alert("Rétt!");
+		return alert("Rétt!");
 	} else if (Math.abs(correct - guess) < 5) {
 		return alert("Mjög nálægt");
 	} else if (Math.abs(correct - guess) < 10) {
